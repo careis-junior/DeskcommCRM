@@ -37,6 +37,15 @@ import type { Idioma } from "./idiomas";
 type Traducoes = Record<string, Partial<Record<Exclude<Idioma, "pt-BR">, string>>>;
 
 export const DICIONARIO: Traducoes = {
+  "Agente por número do remetente": { es: "Agente por número del remitente" },
+  "Com regras nesta lista, o telefone vinculado à conversa escolhe o agente antes da IA. Os demais números usam o fallback público. Intenções, campanhas e o agente anterior não mudam essa escolha.": { es: "Con reglas en esta lista, el teléfono vinculado a la conversación elige el agente antes de la IA. Los demás números usan el agente público de reserva. Las intenciones, campañas y el agente anterior no cambian esta elección." },
+  "Telefone com DDI": { es: "Teléfono con código de país" },
+  "Agente reservado": { es: "Agente reservado" },
+  "Escolha um agente": { es: "Elija un agente" },
+  "Remover regra de remetente": { es: "Eliminar regla de remitente" },
+  "Adicionar número do remetente": { es: "Añadir número del remitente" },
+  "Escolha abaixo um fallback público diferente dos agentes reservados. Salve antes de testar. O teste de classificação de texto não simula o número de origem.": { es: "Elija abajo un agente público de reserva distinto de los agentes reservados. Guarde antes de probar. La prueba de clasificación de texto no simula el número de origen." },
+
   "Há um ajuste proporcional esperando pagamento. Escolher outro plano cancela esse ajuste.": { es: "Hay un ajuste proporcional esperando el pago. Elegir otro plan cancela ese ajuste." },
   "Estamos preparando o ajuste proporcional. Aguarde alguns segundos e tente novamente.": { es: "Estamos preparando el ajuste proporcional. Espera unos segundos e inténtalo de nuevo." },
   "Estamos preparando o ajuste proporcional. Aguarde alguns segundos.": { es: "Estamos preparando el ajuste proporcional. Espera unos segundos." },
