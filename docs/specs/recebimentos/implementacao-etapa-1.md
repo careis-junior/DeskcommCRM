@@ -110,3 +110,41 @@ Resultados da sessão de 30/10/2026:
 
 RLS, fresh/update e E2E do módulo dependem das próximas etapas; não são cobertos
 por testes puros. Estes resultados não autorizam merge ou deploy de produção.
+
+## Revalidação e inventário — 30/10/2026, noite
+
+CONFIRMADO por inspeção somente de leitura no terminal do Coolify:
+
+- App: `ghcr.io/careis-junior/deskcommcrm:feat-roteamento-remetente-v1.85`,
+  image ID `sha256:98107f55babb2f8ff0f1fbdb9463e01af760542a853e30abcff39b854834a2a1`.
+- Worker: `ghcr.io/careis-junior/deskcomm-worker:feat-roteamento-remetente-v1.85`,
+  image ID `sha256:726d32cf0dc0e00a390505b9fe970e4f0c97f37113497f5929be1c7d93a9a504`.
+- Scheduler: `ghcr.io/melgarafael/deskcomm-scheduler:1.85.0`,
+  image ID `sha256:c4ad53790d8f4f242e1a41712af83aba957d25c007726f4fe7bf264499f1a7c1`.
+- Os três serviços estavam `running` e `healthy`. Os IDs acima são IDs locais
+  de imagem, não digests de manifesto do registro.
+- App e worker usam os arquivos `docker-compose.prod.yml`,
+  `docker-compose.single-server.yml` e `docker-compose.traefik.yml` em
+  `/root/deskcommcrm-roteamento-remetente`, com projeto em `/root/deskcommcrm`.
+  O scheduler aponta para os mesmos nomes de arquivo em `/root/deskcommcrm`.
+- O checkout de roteamento estava limpo em `c4b2f591c`. A feature publicada foi
+  baixada sem trocar a branch nem reiniciar serviços.
+
+Revalidação local sobre `1dea8272065eb2b9628ee23ed7618e5c268be5cc`:
+
+- Typecheck completo aprovado, exit 0, com heap de 6 GiB, executando diretamente
+  o mesmo `tsc --noEmit -p tsconfig.typecheck.json` do script do projeto.
+- ESLint completo aprovado, exit 0: zero erros e 560 avisos preexistentes.
+- Os 37 testes específicos passaram; checks de canais, rank de papéis e forma
+  dos fragmentos de versão também passaram.
+- Build com paralelismo reduzido compilou em 3,6 minutos, mas a conclusão foi
+  bloqueada pela revisão automática por tentativa de conexão ao Sentry mesmo
+  com `SENTRY_DSN=off`. Compilação não equivale a build aprovado. Nenhum novo
+  build deve ser tentado contornando esse bloqueio.
+- A suíte geral foi iniciada com proteção adicional contra conexões Node
+  externas. O bloqueio inicial de servidores locais afetou o cliente WAHA;
+  após permitir somente loopback, os 64 testes desse cliente passaram.
+  Ainda não há aprovação da suíte geral: testes de processos auxiliares via
+  `tsx` também apresentaram falhas do ambiente.
+
+Não houve deploy, alteração de configuração de produção nem migração de banco.
