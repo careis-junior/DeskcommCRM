@@ -609,6 +609,10 @@ jobs:
       # Uma variável, os dois scripts: `scripts/test-db.sh` e
       # `scripts/test-update-com-dados.sh` leem esta para escolher a imagem.
       TEST_DB_IMAGE: pgvector/pgvector:pg${{ matrix.pg }}
+      # O fork de implantação não publica releases próprias. Compare o kit
+      # com a release da base instalada, sem depender de releases/latest do fork.
+      # O produto original continua conferindo a última release publicada.
+      CONFERENCIA_KIT_RELEASE: ${{ github.repository == 'careis-junior/DeskcommCRM' && 'v1.85.0' || '' }}
     steps:
       - uses: actions/checkout@v7
 
@@ -616,6 +620,13 @@ jobs:
         # O teto do preâmbulo mora aqui porque passo de composite action não
         # aceita `timeout-minutes`. Razão e medições: o cabeçalho da action.
         timeout-minutes: 5
+
+      - name: Referências publicadas do kit para o fork de implantação
+        if: github.repository == 'careis-junior/DeskcommCRM'
+        run: |
+          git fetch --depth=1 --no-tags https://github.com/melgarafael/DeskcommCRM.git \
+            refs/tags/v1.85.0:refs/tags/v1.85.0 \
+            refs/tags/v1.63.0:refs/tags/v1.63.0
 
       - name: RLS isolation + governance invariants (pg${{ matrix.pg }})
         # O token é só para `gh release view`: o test:db confere o update.sh da
