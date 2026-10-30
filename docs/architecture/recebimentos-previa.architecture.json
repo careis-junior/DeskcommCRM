@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "diagram_type": "fluxo",
+  "meta": {
+    "titulo": "Recebimentos: prévia preparatória",
+    "resumo": "Somente cálculo e resposta autenticada. Não há emissão, banco, tela ou conexão Asaas neste incremento."
+  },
+  "lanes": [
+    { "id": "http", "label": "Requisição autenticada" },
+    { "id": "dominio", "label": "Domínio puro" }
+  ],
+  "mainPath": ["rota", "guard", "plano", "resposta"],
+  "nodes": [
+    { "id": "rota", "lane": "http", "label": "POST /api/v1/recebimentos/simular" },
+    { "id": "guard", "lane": "http", "label": "requireRole + requireSupportWrite" },
+    { "id": "plano", "lane": "dominio", "label": "simularRecebimento: schema estrito e centavos" },
+    { "id": "resposta", "lane": "http", "label": "ok ou fail: etapas ou condição a corrigir" }
+  ],
+  "edges": [
+    { "id": "autoriza", "from": "rota", "to": "guard" },
+    { "id": "calcula", "from": "guard", "to": "plano" },
+    { "id": "devolve", "from": "plano", "to": "resposta" },
+    {
+      "id": "corrige",
+      "from": "resposta",
+      "to": "rota",
+      "label": "nova prévia após corrigir condição"
+    }
+  ]
+}
