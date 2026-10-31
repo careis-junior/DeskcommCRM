@@ -33,7 +33,8 @@ name: e2e
 # executado. Verde que não distingue "passou" de "nem rodou" é pior que vermelho.
 on:
   pull_request:
-    branches: [main]
+    # O fork valida sua base instalada sem incorporar a main do produto.
+    branches: [main, feat/roteamento-remetente-v1.85]
   push:
     branches: [main]
 
