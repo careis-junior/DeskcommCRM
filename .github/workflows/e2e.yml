@@ -34,7 +34,7 @@ name: e2e
 on:
   pull_request:
     # O fork valida sua base instalada sem incorporar a main do produto.
-    branches: [main, feat/roteamento-remetente-v1.85]
+    branches: [main, feat/roteamento-remetente-v1.85, feat/recebimentos-asaas-v1.85]
   push:
     branches: [main]
 

@@ -2,7 +2,7 @@ name: perf
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, feat/recebimentos-asaas-v1.85]
   push:
     branches: [main]
 
