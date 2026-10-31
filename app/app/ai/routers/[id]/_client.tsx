@@ -394,7 +394,7 @@ export function RouterEditorClient({
               )}
             </p>
             {senderRoutes.map((route, index) => (
-              <div key={index} className="space-y-2 rounded border p-2">
+              <div key={index} className="space-y-2 rounded-md border p-2">
                 <Label htmlFor={`sender-phone-${index}`}>{t("Telefone com DDI")}</Label>
                 <Input
                   id={`sender-phone-${index}`}

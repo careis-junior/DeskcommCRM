@@ -154,6 +154,14 @@ beforeAll(() => {
  * arquivo tem de EXISTIR: exceção que aponta para teste que sumiu não prova nada.
  */
 const PROVA_DE_MODULO: Record<string, { readonly arquivo: string; readonly razao: string }> = {
+  recebimentos_conexoes: {
+    arquivo: "tests/invariants/recebimentos-isolamento.test.ts",
+    razao:
+      "JWT real de administradores de duas empresas: cada um lê somente os metadados da " +
+      "própria conexão; filtro explícito pela empresa vizinha retorna zero. Atendente não lê " +
+      "metadados e nem administrador consegue selecionar a coluna cifrada. A leitura é " +
+      "concedida por coluna, sem SELECT na tabela inteira; provisionamento repetido preserva dados.",
+  },
   honorarios_contratos: {
     arquivo: "tests/invariants/honorarios-rls-por-operacao.test.ts",
     razao:
@@ -228,7 +236,7 @@ function inventarioRls(): EstadoRls[] {
   const out = sql(`
     select c.relname
            || E'\\t' || c.relrowsecurity::text
-           || E'\\t' || (has_table_privilege('anon', c.oid, 'select')
+           || E'\\t' || (has_any_column_privilege('anon', c.oid, 'select')
                         or has_table_privilege('anon', c.oid, 'insert')
                         or has_table_privilege('anon', c.oid, 'update')
                         or has_table_privilege('anon', c.oid, 'delete'))::text
@@ -595,6 +603,11 @@ describe("D8 — as varreduras de RLS, security definer e cascata de LGPD com os
         insert into public.organizations (id, slug, legal_name, display_name)
           values ('7a5f0011-9999-4000-8000-0000000000b1', 'd8-varreduras-b', 'D8 Varreduras B', 'D8 Var B')
           on conflict (id) do nothing;
+        insert into public.recebimentos_conexoes
+            (organization_id,credential_ciphertext,credential_iv,credential_tag,credential_last4)
+          values ('7a5f0011-9999-4000-8000-0000000000b1',decode('aa','hex'),
+                  decode(repeat('11',12),'hex'),decode(repeat('22',16),'hex'),'d8b1')
+          on conflict do nothing;
         insert into public.honorarios_contratos (id, organization_id, modelo, valor_fixo_cents)
           values ('7a5f0011-9999-4000-8000-0000000000c1', '7a5f0011-9999-4000-8000-0000000000b1', 'fixo', 100000)
           on conflict do nothing;
@@ -613,7 +626,9 @@ describe("D8 — as varreduras de RLS, security definer e cascata de LGPD com os
       const comOrg = comOrganizationId(TABELAS_DE_MODULO);
       expect(comOrg.length).toBeGreaterThanOrEqual(2);
       for (const tabela of comOrg) {
-        const podeLer = booleano(sql(`select has_table_privilege('authenticated', 'public.${tabela}', 'select');`));
+        // SELECT por coluna também permite count(*). Isso não concede leitura de
+        // outras colunas: a prova específica verifica a recusa do segredo.
+        const podeLer = booleano(sql(`select has_any_column_privilege('authenticated', 'public.${tabela}', 'select');`));
         if (podeLer) {
           const esperado = Number(
             sql(`select count(*) from public.${tabela} where organization_id = '${GOV_ORG}';`),

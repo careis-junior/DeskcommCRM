@@ -15,6 +15,13 @@ export interface ModuloCatalogo {
 
 export const CATALOGO_DE_MODULOS: readonly ModuloCatalogo[] = [
   {
+    slug: "recebimentos",
+    nome: "Recebimentos — Asaas Sandbox",
+    descricao:
+      "Conexão Asaas Sandbox por empresa, com chave protegida e teste de acesso. " +
+      "Esta etapa não gera cobranças nem envia mensagens.",
+  },
+  {
     slug: "honorarios",
     nome: "Honorários (advocacia)",
     descricao:

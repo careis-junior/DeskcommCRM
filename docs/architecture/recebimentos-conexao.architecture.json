@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "diagram_type": "fluxo",
+  "meta": {
+    "titulo": "Recebimentos: conexão Sandbox",
+    "resumo": "Módulo opcional, credencial por empresa e teste de leitura; sem emissão ou envio."
+  },
+  "lanes": [
+    { "id": "operador", "label": "Administrador" },
+    { "id": "servidor", "label": "Servidor" }
+  ],
+  "mainPath": ["tela", "guard", "cifra", "banco", "teste", "diagnostico"],
+  "nodes": [
+    { "id": "tela", "lane": "operador", "label": "Configurações → Recebimentos" },
+    { "id": "guard", "lane": "servidor", "label": "Papel, empresa, suporte e módulo" },
+    { "id": "cifra", "lane": "servidor", "label": "AES-GCM; somente chave Sandbox" },
+    { "id": "banco", "lane": "servidor", "label": "recebimentos_conexoes: RLS e revisão" },
+    { "id": "teste", "lane": "servidor", "label": "Adaptador Asaas: consulta de leitura" },
+    { "id": "diagnostico", "lane": "operador", "label": "Estado público e auditoria sem segredo" }
+  ],
+  "edges": [
+    { "id": "autoriza", "from": "tela", "to": "guard" },
+    { "id": "protege", "from": "guard", "to": "cifra" },
+    { "id": "salva", "from": "cifra", "to": "banco" },
+    { "id": "consulta", "from": "banco", "to": "teste" },
+    { "id": "registra", "from": "teste", "to": "diagnostico" },
+    {
+      "id": "corrige",
+      "from": "diagnostico",
+      "to": "tela",
+      "label": "Corrigir chave ou tentar novamente"
+    }
+  ]
+}
