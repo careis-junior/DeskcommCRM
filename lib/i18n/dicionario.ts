@@ -80,7 +80,7 @@ export const DICIONARIO: Traducoes = {
   "Aguarde. Não repita a operação enquanto ela é processada.": { es: "Espere. No repita la operación mientras se procesa." },
   "Emissão iniciada. Consulte a situação antes de tentar outra cobrança.": { es: "Emisión iniciada. Consulte el estado antes de intentar otro cobro." },
   "A resposta não foi confirmada. Consulte o Asaas; não gere outra cobrança.": { es: "La respuesta no se confirmó. Consulte Asaas; no genere otro cobro." },
-  "Aguardando pagamento": { es: "Pendiente de pago" },
+  "Cobrança aguardando pagamento": { es: "Cobro pendiente de pago" },
   "Pagamento confirmado; ainda não liquidado": { es: "Pago confirmado; aún no liquidado" },
   "Pagamento recebido": { es: "Pago recibido" },
   "Cancelamento em andamento. Consulte a situação antes de repetir.": { es: "Cancelación en curso. Consulte el estado antes de repetir." },

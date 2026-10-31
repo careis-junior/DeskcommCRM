@@ -79,7 +79,7 @@ export const MENSAGENS_COBRANCA: Record<CobrancaPublica["status"], string> = {
   criando: "Emissão iniciada. Consulte a situação antes de tentar outra cobrança.",
   criacao_indeterminada:
     "A resposta não foi confirmada. Consulte o Asaas; não gere outra cobrança.",
-  pendente: "Aguardando pagamento",
+  pendente: "Cobrança aguardando pagamento",
   confirmada: "Pagamento confirmado; ainda não liquidado",
   recebida: "Pagamento recebido",
   vencida: "Vencida",
