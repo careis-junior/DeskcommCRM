@@ -64,7 +64,7 @@ describe("cobranças opcionais com RLS e vínculos de tenant", () => {
   });
   it("anonimização redige motivo e link, sem alterar valores nem apagar a obrigação", () => {
     sql(
-      `update public.recebimentos_cobrancas set invoice_url='https://sandbox.asaas.com/i/teste' where contact_id='${CA}'; update public.contacts set is_anonymized=true where id='${CA}' and organization_id='${A}';`,
+      `update public.recebimentos_cobrancas set invoice_url='https://sandbox.asaas.com/i/teste' where contact_id='${CA}'; update public.contacts set is_anonymized=true, anonymized_at=now() where id='${CA}' and organization_id='${A}';`,
     );
     expect(
       sql(

@@ -120,6 +120,12 @@ const nextConfig: NextConfig = {
 };
 
 export default withSentryConfig(nextConfig, {
+  // Métricas do plugin de build não são erros da aplicação. A validação local
+  // com SENTRY_DSN=off não deve transmitir código ou metadados ao fornecedor.
+  telemetry: false,
+  ...(process.env.SENTRY_DSN === "off"
+    ? { authToken: "", sourcemaps: { disable: true } }
+    : {}),
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
