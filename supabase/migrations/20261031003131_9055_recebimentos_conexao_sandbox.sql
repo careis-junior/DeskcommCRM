@@ -34,12 +34,16 @@ begin
     on public.recebimentos_conexoes to authenticated;
   grant all on public.recebimentos_conexoes to service_role;
   drop policy if exists tenant_isolation_recebimentos_conexoes_all on public.recebimentos_conexoes;
-  create policy tenant_isolation_recebimentos_conexoes_all on public.recebimentos_conexoes
+  -- Compatibilidade com update.sh v1.39–v1.63: a policy opcional não deve
+  -- entrar na varredura de regras já existentes antes da instalação do módulo.
+  create policy tenant_isolation_recebimentos_conexoes_all
+    on public.recebimentos_conexoes
     for select to authenticated
     using (organization_id in (select public.fn_user_org_ids())
       and public.fn_role_at_least(organization_id, 'admin'));
   perform public.fn_proteger_modulo_provisionado();
-end $f$;
+end;
+$f$;
 revoke execute on function public.fn_recebimentos_provisionar() from public, anon, authenticated;
 grant execute on function public.fn_recebimentos_provisionar() to service_role;
 
@@ -47,5 +51,6 @@ do $f$ begin
   if exists (select 1 from public.modulos_instalados where modulo = 'recebimentos' and estado = 'ativo') then
     perform public.fn_recebimentos_provisionar();
   end if;
-end $f$;
+end;
+$f$;
 notify pgrst, 'reload schema';
