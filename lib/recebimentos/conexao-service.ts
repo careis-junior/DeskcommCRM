@@ -192,3 +192,29 @@ export async function testarConexaoSandbox(
   // durante o HTTP: a revisão é conferida DE NOVO na escrita atômica.
   return registrarEstado(db, orgId, revision, status);
 }
+
+/** Exclusivo do servidor: nunca espalhar este resultado em uma resposta HTTP. */
+export async function credencialValidadaSandbox(db: SupabaseClient, orgId: string) {
+  const { data, error } = await daEmpresa(
+    db,
+    orgId,
+    `${PUBLICAS},credential_ciphertext,credential_iv,credential_tag`,
+  ).maybeSingle();
+  falhaDoBanco(error);
+  if (!data) throw new ConexaoRecebimentosError("recebimentos_connection_missing", 404);
+  const c = conexaoArmazenadaSchema.parse(data);
+  if (c.status !== "validada")
+    throw new ConexaoRecebimentosError("recebimentos_revision_conflict", 409);
+  try {
+    const chave = chaveSandboxSchema.parse(
+      decryptKey({
+        ciphertext: byteaToBuffer(c.credential_ciphertext),
+        iv: byteaToBuffer(c.credential_iv),
+        tag: byteaToBuffer(c.credential_tag),
+      }),
+    );
+    return { id: c.id, revision: c.revision, chave };
+  } catch {
+    throw new ConexaoRecebimentosError("recebimentos_crypto_unavailable", 503);
+  }
+}

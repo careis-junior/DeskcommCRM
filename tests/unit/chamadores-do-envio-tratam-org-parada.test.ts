@@ -17,6 +17,8 @@ import { arquivosDeCodigo, caminhoRelativo } from "./helpers/varrer-codigo";
 const TRATA = "trata";
 
 const CHAMADORES: Record<string, string> = {
+  "lib/recebimentos/envio-service.ts": TRATA, // envio-service.test.ts: falha sem envio e propaga a suspensão, sem retry automático
+
   "app/api/v1/cron/agenda-reminder/route.ts": TRATA, // tests/unit/lembrete-pula-org-parada.test.ts
   "app/api/v1/cron/task-reminder/route.ts": TRATA, // app/api/v1/cron/task-reminder/route.test.ts (OrgNaoOperanteError no catch do WhatsApp)
   "lib/campanhas/rodada.ts": TRATA, // registrarExcecaoDoEnvio, tests/unit/suspensao-nao-dispara-campanha.test.ts

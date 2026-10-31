@@ -110,3 +110,5 @@ As três vezes o custo foi o mesmo: descobrir a aresta **durante** a
 implementação, com a peça já meio pronta.
 
 - `carteiras-transferencia.architecture.json`: atribuição respeita o escopo da carteira sob lock.
+
+- `recebimentos-cobrancas.architecture.json`: emissão manual Sandbox, recuperação e envio pela Inbox.

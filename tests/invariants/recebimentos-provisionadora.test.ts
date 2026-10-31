@@ -4,8 +4,8 @@ import { sql } from "./gov-helpers";
 
 moldeDeProvisionadora({
   modulo: "recebimentos",
-  tabelas: ["recebimentos_conexoes"],
-  protecaoPropria: ["recebimentos_conexoes"],
+  tabelas: ["recebimentos_conexoes", "recebimentos_cobrancas"],
+  protecaoPropria: ["recebimentos_conexoes", "recebimentos_cobrancas"],
 });
 
 describe("credencial de recebimentos fica fora do navegador", () => {

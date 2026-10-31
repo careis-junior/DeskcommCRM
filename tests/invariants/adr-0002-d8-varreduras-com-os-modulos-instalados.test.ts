@@ -154,6 +154,10 @@ beforeAll(() => {
  * arquivo tem de EXISTIR: exceção que aponta para teste que sumiu não prova nada.
  */
 const PROVA_DE_MODULO: Record<string, { readonly arquivo: string; readonly razao: string }> = {
+  recebimentos_cobrancas: {
+    arquivo: "tests/invariants/recebimentos-cobrancas-isolamento.test.ts",
+    razao: "JWT real de administradores de duas empresas e atendente: leitura restrita, escrita e colunas internas recusadas, vínculos de outro tenant bloqueados e intenção imutável.",
+  },
   recebimentos_conexoes: {
     arquivo: "tests/invariants/recebimentos-isolamento.test.ts",
     razao:

@@ -1177,6 +1177,10 @@ export const AUDIT_ACTIONS = [
   "recebimentos.connection_saved",
   "recebimentos.connection_tested",
   "recebimentos.connection_disabled",
+  "recebimentos.charge_requested",
+  "recebimentos.charge_sincronizar",
+  "recebimentos.charge_cancelar",
+  "recebimentos.charge_send_requested",
 ] as const;
 
 /** Um código de auditoria. Derivado de `AUDIT_ACTIONS` — não redigite a lista. */
