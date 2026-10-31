@@ -58708,4 +58708,3 @@ create view public.external_db_connections_safe
 
 revoke all on public.external_db_connections_safe from anon;
 grant select on public.external_db_connections_safe to authenticated;
-
