@@ -89,7 +89,7 @@ export function ConexaoDeRecebimentos({
           <CardTitle>{t("Asaas Sandbox")}</CardTitle>
           <CardDescription>
             {t(
-              "Somente testes. Gerar cobranças e enviar links ainda não estão disponíveis nesta etapa.",
+              "Somente testes. Emita cobranças de teste abaixo e confira o link antes de enviá-lo.",
             )}
           </CardDescription>
         </CardHeader>

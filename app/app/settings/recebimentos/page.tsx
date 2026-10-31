@@ -5,6 +5,7 @@ import { roleAtLeast } from "@/lib/auth/types";
 import { moduloLigado } from "@/lib/instalacao/modulos";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { traduzir } from "@/lib/i18n/dicionario";
+import { CobrancasDeRecebimentos } from "./_cobrancas";
 import { ConexaoDeRecebimentos } from "./_client";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +26,11 @@ export default async function RecebimentosPage() {
         </p>
       </header>
       <ConexaoDeRecebimentos key={org.orgId} orgId={org.orgId} podeEditar={!user.support} />
+      <CobrancasDeRecebimentos
+        key={`cobrancas-${org.orgId}`}
+        orgId={org.orgId}
+        podeEditar={!user.support}
+      />
     </div>
   );
 }

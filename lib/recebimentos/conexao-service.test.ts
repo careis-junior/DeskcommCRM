@@ -7,6 +7,7 @@ import { encryptKey, bufToBytea, byteaToBuffer, decryptKey } from "@/lib/crypto/
 import { salvarConexaoSchema, conexaoPublicaSchema } from "./conexao";
 import {
   lerConexaoSandbox,
+  credencialValidadaSandbox,
   salvarConexaoSandbox,
   testarConexaoSandbox,
   desativarConexaoSandbox,
@@ -199,5 +200,30 @@ describe("conexão de recebimentos Sandbox", () => {
         organization_id: ORG_A,
       }),
     ).toEqual(row);
+  });
+});
+
+describe("credencial compartilhada com o worker", () => {
+  it("decifra só a conexão validada e mantém o filtro da empresa", async () => {
+    const b = banco([
+      {
+        data: { ...cifrada(), status: "validada", validated_at: "2026-10-31T00:00:00Z" },
+        error: null,
+      },
+    ]);
+    const c = await credencialValidadaSandbox(b.db, ORG_A);
+    expect(c.chave).toBe(KEY);
+    expect(b.operacoes[0]!.filtros).toContainEqual(["organization_id", ORG_A]);
+    expect(b.operacoes[0]!.filtros).toContainEqual(["ambiente", "sandbox"]);
+  });
+  it("ausência, conexão desativada e cifra inválida não liberam a chave", async () => {
+    for (const data of [
+      null,
+      { ...cifrada(), status: "desativada" },
+      { ...cifrada(), status: "validada", credential_tag: "\\x00" },
+    ]) {
+      const b = banco([{ data, error: null }]);
+      await expect(credencialValidadaSandbox(b.db, ORG_A)).rejects.toThrow();
+    }
   });
 });

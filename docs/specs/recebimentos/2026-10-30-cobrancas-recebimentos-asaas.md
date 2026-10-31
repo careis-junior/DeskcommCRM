@@ -4,7 +4,7 @@ Repositório de entrega: careis-junior/DeskcommCRM
 Branch de planejamento: feat/cobrancas-recebimentos-asaas
 Branch de implementação: feat/recebimentos-asaas-v1.85
 Base confirmada via /api/v1/health em 30/10/2026: c4b2f591c7ce51ee58e227a4e819ed48e021c1a2 (roteamento por remetente).
-Status: especificado; implementação, testes executáveis e deploy ainda não realizados por este documento.
+Status: entrega por etapas. Conexão Sandbox implantada em 31/10/2026; emissão manual em desenvolvimento no complemento `2026-10-31-emissao-manual-sandbox.md`. As demais partes abaixo são escopo planejado, não funcionalidades implantadas.
 
 ## 1. Objetivo e decisão de arquitetura
 Criar um módulo opcional, genérico e multiempresa para cobrar os clientes das empresas usuárias do CRM. Cada empresa conecta sua própria conta Asaas, configura regras e acompanha recebimentos. Saúde, comércio, oficinas, educação e outros serviços compartilham o mesmo domínio financeiro e recebem modelos editáveis.

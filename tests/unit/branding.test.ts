@@ -965,6 +965,10 @@ const HOSTS_DECLARADOS: Record<string, EntradaDeHost> = {
     motivo:
       "endpoint de PRODUÇÃO da API do Asaas (`lib/cobranca/provedores/asaas.ts`): Pix e boleto recorrentes com que o DONO da instalação cobra as empresas dele, com a chave da conta Asaas DELE. Destino do request, não marca.",
   },
+  "sandbox.asaas.com": {
+    categoria: "FORNECEDOR",
+    motivo: "Faturas hospedadas de teste do Asaas: o link é validado antes de ser exibido ou enviado pelo módulo opcional de recebimentos; não é marca da instalação.",
+  },
   "api-sandbox.asaas.com": {
     categoria: "FORNECEDOR",
     motivo:

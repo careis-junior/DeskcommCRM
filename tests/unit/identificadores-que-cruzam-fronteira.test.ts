@@ -195,6 +195,7 @@ const SITES: { arquivo: string; fronteira: string; papel?: "gerador" | "validado
   { arquivo: "hooks/contacts/useImportContacts.ts", fronteira: "api.idempotency-key", papel: "gerador" },
   { arquivo: "lib/api/client.ts", fronteira: "api.idempotency-key", papel: "gerador" },
   { arquivo: "lib/api/idempotency.ts", fronteira: "api.idempotency-key", papel: "validador" },
+  { arquivo: "lib/recebimentos/cobrancas-http.ts", fronteira: "api.idempotency-key", papel: "validador" },
   { arquivo: "lib/extensions/http.ts", fronteira: "api.idempotency-key", papel: "validador" },
   { arquivo: "app/api/v1/admin/tenants/route.ts", fronteira: "api.idempotency-key", papel: "validador" },
   { arquivo: "app/api/v1/channel-sessions/route.ts", fronteira: "api.idempotency-key", papel: "validador" },

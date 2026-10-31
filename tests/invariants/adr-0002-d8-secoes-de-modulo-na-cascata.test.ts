@@ -28,12 +28,9 @@
  *      executável nem por `anon` nem por `authenticated` (D4, mesma régua da provisionadora).
  *
  * ─── O módulo de MENTIRA deste arquivo ────────────────────────────────────────────────────────
- * Nenhum módulo oficial declara seção hoje: honorários não tem texto livre sobre a pessoa,
- * decisão escrita na própria migration 0480, e a tabela `modulo_secoes_lgpd` nasce VAZIA (o
- * caso 1 abaixo mede isso). A seção que redige existe SÓ aqui — é o mesmo desenho da onda 1
- * (`provisionadora-de-modulo.test.ts` nasce com o conjunto vazio e prova o instrumento com
- * função de mentira): mecanismo sem consumidor ainda precisa de instrumento medido, senão o
- * dia em que o primeiro módulo declarar é o dia em que ninguém sabe se a coisa funciona.
+ * Recebimentos declara a seção real de cobranças (9061), coberta também pelo invariante
+ * recebimentos-cobrancas-isolamento.test.ts. As sondas abaixo continuam provando os casos
+ * ausente, presente e declaração inválida sem depender da instalação desse módulo.
  */
 import { beforeAll, describe, expect, it } from "vitest";
 
@@ -108,8 +105,10 @@ function anonimizar(contato: string): void {
 }
 
 describe("D8 — a anonimização alcança as seções de módulo declaradas", () => {
-  it("o mecanismo existe e nasce com o registro VAZIO (nenhum módulo declara ainda)", () => {
-    expect(sql(`select (to_regclass('public.modulo_secoes_lgpd') is not null)::text;`)).toBe("true");
+  it("o mecanismo existe e registra a seção real de recebimentos", () => {
+    expect(sql(`select (to_regclass('public.modulo_secoes_lgpd') is not null)::text;`)).toBe(
+      "true",
+    );
     expect(
       sql(`select count(*) from pg_proc where proname = 'fn_lgpd_redigir_secoes_de_modulo'
              and pronamespace = 'public'::regnamespace;`),
@@ -119,16 +118,22 @@ describe("D8 — a anonimização alcança as seções de módulo declaradas", (
              where c.relname = 'contacts' and t.tgname = 'trg_lgpd_secoes_de_modulo'
                and not t.tgisinternal;`),
     ).toBe("1");
-    // O registro nasce vazio de propósito — e é a prova de que a migration não inventou
-    // dado de LGPD para um módulo que não pediu (honorários, 0480).
-    expect(sql(`select count(*) from public.modulo_secoes_lgpd;`)).toBe("0");
+    expect(
+      sql(`select modulo || '|' || tabela || '|' || ligacao || '|' ||
+      array_to_string(colunas, ',') || '|' || array_to_string(colunas_rotulo, ',')
+      from public.modulo_secoes_lgpd order by modulo, tabela;`),
+    ).toBe(
+      "recebimentos|recebimentos_cobrancas|organization_id = $1 and contact_id = $2|invoice_url,diagnostic|reason",
+    );
     // E o guard é o da D8, lido do catálogo (não do arquivo): o corpo tem de resolver a
     // tabela com to_regclass antes de qualquer comando.
-    expect(sql(`
+    expect(
+      sql(`
       select pg_get_functiondef(p.oid) from pg_proc p
        where p.proname = 'fn_lgpd_redigir_secoes_de_modulo'
          and p.pronamespace = 'public'::regnamespace;
-    `)).toContain("to_regclass(");
+    `),
+    ).toContain("to_regclass(");
   });
 
   it("MÓDULO NÃO INSTALADO: a seção declarada para tabela ausente PULA, sem erro", () => {
@@ -145,7 +150,9 @@ describe("D8 — a anonimização alcança as seções de módulo declaradas", (
     expect(linhaDe(AUSENTE)).toBe("O nome de Ana Ausente|querido Ana Ausente");
 
     expect(() => anonimizar(AUSENTE)).not.toThrow();
-    expect(sql(`select is_anonymized::text from public.contacts where id = '${AUSENTE}';`)).toBe("true");
+    expect(sql(`select is_anonymized::text from public.contacts where id = '${AUSENTE}';`)).toBe(
+      "true",
+    );
     // A seção apontava para uma tabela que não existe: nada foi tocado, e o contato foi
     // anonimizado do mesmo jeito. É esta a frase da D8.
     expect(linhaDe(AUSENTE)).toBe("O nome de Ana Ausente|querido Ana Ausente");
@@ -191,7 +198,9 @@ describe("D8 — a anonimização alcança as seções de módulo declaradas", (
     ).toContain("modulo_secao_invalida");
     expect(erro).toContain("sonda_quebrado");
     // A falha abortou a transação inteira: o contato NÃO foi anonimizado pela metade.
-    expect(sql(`select is_anonymized::text from public.contacts where id = '${ERROU}';`)).toBe("false");
+    expect(sql(`select is_anonymized::text from public.contacts where id = '${ERROU}';`)).toBe(
+      "false",
+    );
 
     sql(`delete from public.modulo_secoes_lgpd where modulo = 'sonda_quebrado';`);
   });

@@ -21,18 +21,8 @@ const conexaoArmazenadaSchema = conexaoPublicaSchema.extend({
   credential_tag: z.unknown(),
 });
 
-export class ConexaoRecebimentosError extends Error {
-  constructor(
-    readonly code:
-      | "recebimentos_revision_conflict"
-      | "recebimentos_crypto_unavailable"
-      | "recebimentos_connection_missing"
-      | "recebimentos_storage_unavailable",
-    readonly status: number,
-  ) {
-    super(code);
-  }
-}
+import { ConexaoRecebimentosError } from "./conexao-erros";
+export { ConexaoRecebimentosError } from "./conexao-erros";
 
 function falhaDoBanco(error: { code?: string } | null) {
   if (!error) return;
@@ -192,3 +182,5 @@ export async function testarConexaoSandbox(
   // durante o HTTP: a revisão é conferida DE NOVO na escrita atômica.
   return registrarEstado(db, orgId, revision, status);
 }
+
+export { credencialValidadaSandbox } from "./credencial-sandbox";

@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "diagram_type": "fluxo",
+  "meta": {
+    "titulo": "Recebimentos: emissão manual Sandbox",
+    "resumo": "Intenção antes do efeito, consulta canônica e envio humano pela Inbox."
+  },
+  "lanes": [
+    {
+      "id": "operador",
+      "label": "Administrador"
+    },
+    {
+      "id": "servidor",
+      "label": "Servidor"
+    }
+  ],
+  "mainPath": [
+    "tela",
+    "guard",
+    "reserva",
+    "provedor",
+    "lista",
+    "previa",
+    "canal"
+  ],
+  "nodes": [
+    {
+      "id": "tela",
+      "lane": "operador",
+      "label": "Configurações → Recebimentos"
+    },
+    {
+      "id": "guard",
+      "lane": "servidor",
+      "label": "Papel, tenant, módulo e dados"
+    },
+    {
+      "id": "reserva",
+      "lane": "servidor",
+      "label": "Intenção única e imutável"
+    },
+    {
+      "id": "provedor",
+      "lane": "servidor",
+      "label": "Asaas Sandbox, sem retry de POST"
+    },
+    {
+      "id": "lista",
+      "lane": "operador",
+      "label": "Situação, revisão e histórico"
+    },
+    {
+      "id": "previa",
+      "lane": "operador",
+      "label": "Pagador, conversa e prévia"
+    },
+    {
+      "id": "canal",
+      "lane": "servidor",
+      "label": "Porta nativa da Inbox"
+    },
+    {
+      "id": "consulta",
+      "lane": "servidor",
+      "label": "Consulta canônica ou MCP do contato"
+    }
+  ],
+  "edges": [
+    {
+      "id": "entrada",
+      "from": "tela",
+      "to": "guard"
+    },
+    {
+      "id": "autoriza",
+      "from": "guard",
+      "to": "reserva"
+    },
+    {
+      "id": "emite",
+      "from": "reserva",
+      "to": "provedor"
+    },
+    {
+      "id": "registra",
+      "from": "provedor",
+      "to": "lista"
+    },
+    {
+      "id": "prepara",
+      "from": "lista",
+      "to": "previa"
+    },
+    {
+      "id": "envia",
+      "from": "previa",
+      "to": "canal"
+    },
+    {
+      "id": "retorno",
+      "from": "canal",
+      "to": "lista"
+    },
+    {
+      "id": "confere",
+      "from": "lista",
+      "to": "consulta"
+    },
+    {
+      "id": "le",
+      "from": "consulta",
+      "to": "provedor"
+    },
+    {
+      "id": "atualiza",
+      "from": "consulta",
+      "to": "lista"
+    }
+  ]
+}
