@@ -74,6 +74,6 @@ test("cobrança de teste tem prévia, pagador e conversa antes de enviar", async
     contentType: "image/png",
   });
   await enviar.click();
-  await expect(page.getByText("Situação do envio: sent", { exact: true })).toBeVisible();
+  await expect(page.getByText("Situação do envio: Enviado", { exact: true })).toBeVisible();
   expect(enviados).toBe(1);
 });

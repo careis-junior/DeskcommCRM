@@ -1,3 +1,4 @@
+import { nomeDoContato } from "@/lib/contacts/rotulo-do-contato";
 import { createHash, randomUUID } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
@@ -250,7 +251,7 @@ export async function criarCobranca(
     const provedor = await provedorDaCobranca(db, orgId, row, dep);
     const cliente = await provedor.cliente({
       referencia: `rcp_${c.id}_${input.contact_id}`,
-      nome: contato.display_name || contato.name || "Cliente de teste",
+      nome: nomeDoContato(contato) ?? "Cliente de teste",
       documento: documentoDoPagador(input.documento)!,
     });
     row = await alterarCobranca(db, row, { provider_customer_id: cliente });

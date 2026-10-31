@@ -29,6 +29,26 @@ export const estadoCobrancaSchema = z.enum([
   "revertida",
   "revisao_manual",
 ]);
+export const estadoEnvioSchema = z.enum([
+  "nao_enviada",
+  "enviando",
+  "sent",
+  "delivered",
+  "read",
+  "queued",
+  "failed",
+  "revisao_manual",
+]);
+export const MENSAGENS_ENVIO: Record<z.infer<typeof estadoEnvioSchema>, string> = {
+  nao_enviada: "Link ainda não enviado",
+  enviando: "Enviando link",
+  sent: "Enviado",
+  delivered: "Entregue",
+  read: "Lido",
+  queued: "Aguardando canal de envio. Confira na Inbox.",
+  failed: "Envio não concluído",
+  revisao_manual: "Confira o envio na Inbox antes de tentar novamente.",
+};
 export const cobrancaPublicaSchema = z
   .object({
     id: z.string().uuid(),
@@ -44,7 +64,7 @@ export const cobrancaPublicaSchema = z
     invoice_url: z.string().nullable(),
     diagnostic: z.string().nullable(),
     revision: z.number().int().positive(),
-    send_state: z.string(),
+    send_state: estadoEnvioSchema,
     message_id: z.string().uuid().nullable(),
     conversation_id: z.string().uuid().nullable(),
     send_requested_at: z.string().nullable(),

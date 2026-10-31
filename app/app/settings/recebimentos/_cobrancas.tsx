@@ -1,4 +1,5 @@
 "use client";
+import { nomeDoContato } from "@/lib/contacts/rotulo-do-contato";
 import { randomId } from "@/lib/random-id";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -12,6 +13,7 @@ import { useT } from "@/hooks/i18n/useT";
 import {
   cobrancaPodeSerEnviada,
   MENSAGENS_COBRANCA,
+  MENSAGENS_ENVIO,
   mensagemDaCobranca,
   type CobrancaPublica,
 } from "@/lib/recebimentos/cobrancas";
@@ -76,7 +78,7 @@ export function CobrancasDeRecebimentos({
   const bloqueado = !podeEditar || ocupado;
   const nome = (id: string) => {
     const c = contatos.data?.data.contatos.find((v) => v.id === id);
-    return c?.display_name || c?.name || t("Contato");
+    return nomeDoContato(c) ?? t("Sem nome");
   };
   async function emitir(e: React.FormEvent) {
     e.preventDefault();
@@ -126,7 +128,7 @@ export function CobrancasDeRecebimentos({
       );
       setAviso(
         acao === "enviar"
-          ? `${t("Situação do envio:")} ${r.data.cobranca.send_state}`
+          ? `${t("Situação do envio:")} ${t(MENSAGENS_ENVIO[r.data.cobranca.send_state])}`
           : t(MENSAGENS_COBRANCA[r.data.cobranca.status]),
       );
       setPrevia(null);
@@ -166,7 +168,7 @@ export function CobrancasDeRecebimentos({
                 <option value="">{t("Selecione entre os 100 contatos recentes")}</option>
                 {contatos.data?.data.contatos.map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.display_name || c.name || t("Contato sem nome")}
+                    {nomeDoContato(c) ?? t("Sem nome")}
                   </option>
                 ))}
               </select>
@@ -324,7 +326,7 @@ export function CobrancasDeRecebimentos({
               </p>
             )}
             <p className="text-sm">
-              {t("Situação do envio:")} {c.send_state}
+              {t("Situação do envio:")} {t(MENSAGENS_ENVIO[c.send_state])}
             </p>
             <div className="flex flex-wrap gap-2">
               <Button
