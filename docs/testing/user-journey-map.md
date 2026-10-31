@@ -3568,3 +3568,11 @@ do commit (resposta perdida, processo reiniciado) e retomada pela segunda tentat
 partir da lápide, com o 500 que não diz "nada foi apagado": medida por unidade em
 `lib/tenants/exclusao.test.ts` e `…/delete/route.test.ts`, e o inventário da lápide em
 `tests/invariants/gestao-de-tenants.test.ts`.
+
+## Recebimentos: emissão manual Sandbox (etapa de 31/10/2026)
+
+- P0: administrador vê intenção, situação e orientação de consulta na tela.
+- P0: prévia exige pagador e conversa antes de autorizar mensagem com link de teste.
+- Spec: `tests/e2e/recebimentos-cobrancas.spec.ts` (app/login reais; pagamentos e canal dublês, não prova de emissão externa).
+- Provas independentes: testes de transporte, concorrência, envio e `recebimentos-cobrancas-isolamento.test.ts` em Postgres.
+- Homologação real no Sandbox e envio em número próprio precisam ser registrados separadamente; nenhum paciente real é alvo da suíte.
