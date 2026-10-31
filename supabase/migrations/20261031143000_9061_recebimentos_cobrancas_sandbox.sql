@@ -61,7 +61,9 @@ begin
   grant select (id,organization_id,contact_id,appointment_id,amount_cents,currency,due_date,billing_type,reason,status,provider_status,invoice_url,diagnostic,revision,send_state,message_id,conversation_id,send_requested_at,created_at,updated_at) on public.recebimentos_cobrancas to authenticated;
   grant all on public.recebimentos_cobrancas to service_role;
   drop policy if exists tenant_isolation_recebimentos_cobrancas_all on public.recebimentos_cobrancas;
-  create policy tenant_isolation_recebimentos_cobrancas_all on public.recebimentos_cobrancas for select to authenticated
+  -- Forma em duas linhas: update.sh até v1.63 não deve cobrar tabela opcional ausente.
+  create policy tenant_isolation_recebimentos_cobrancas_all
+    on public.recebimentos_cobrancas for select to authenticated
     using (organization_id in (select public.fn_user_org_ids()) and public.fn_role_at_least(organization_id,'admin'));
   drop trigger if exists recebimentos_validar_vinculos on public.recebimentos_cobrancas;
   create trigger recebimentos_validar_vinculos before insert or update on public.recebimentos_cobrancas for each row execute function public.fn_recebimentos_validar_vinculos();
