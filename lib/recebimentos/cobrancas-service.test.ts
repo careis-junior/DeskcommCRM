@@ -1,14 +1,14 @@
 // @vitest-environment node
 import { beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock("@/lib/instalacao/modulos", () => ({ moduloLigado: vi.fn(async () => true) }));
-vi.mock("./conexao-service", () => ({
+vi.mock("./credencial-sandbox", () => ({
   credencialValidadaSandbox: vi.fn(async () => ({
     id: "c5550000-0000-4000-8000-000000000001",
     revision: 2,
     chave: "$aact_hmlg_credencial_sintetica_sem_validade_1234",
   })),
 }));
-import { credencialValidadaSandbox } from "./conexao-service";
+import { credencialValidadaSandbox } from "./credencial-sandbox";
 import { bancoRecebimentos } from "@/tests/helpers/recebimentos/banco";
 import { criarCobranca, sincronizarCobranca } from "./cobrancas-service";
 import type { ProvedorSandbox } from "./provedor-sandbox";

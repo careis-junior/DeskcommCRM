@@ -1,10 +1,9 @@
-import "server-only";
 import { createHash, randomUUID } from "node:crypto";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { documentoDoPagador } from "@/lib/cobranca/documento";
 import { moduloLigado } from "@/lib/instalacao/modulos";
-import { credencialValidadaSandbox } from "./conexao-service";
+import { credencialValidadaSandbox } from "./credencial-sandbox";
 import {
   COLUNAS_COBRANCA,
   cobrancaPublicaSchema,

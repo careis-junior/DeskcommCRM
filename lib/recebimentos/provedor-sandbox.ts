@@ -1,4 +1,3 @@
-import "server-only";
 import { z } from "zod";
 import { chaveSandboxSchema } from "./conexao";
 import { linkSandboxSeguro } from "./cobrancas";
