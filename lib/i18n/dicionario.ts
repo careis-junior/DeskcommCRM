@@ -89,7 +89,6 @@ export const DICIONARIO: Traducoes = {
   "Link ainda não enviado": { es: "Enlace aún no enviado" },
   "Enviando link": { es: "Enviando enlace" },
   "Enviado": { es: "Enviado" },
-  "Entregue": { es: "Entregado" },
   "Lido": { es: "Leído" },
   "Aguardando canal de envio. Confira na Inbox.": { es: "Esperando el canal de envío. Revise la bandeja de entrada." },
   "Envio não concluído": { es: "Envío no completado" },
