@@ -8,9 +8,9 @@ const UB = "b5550000-1111-4000-8000-000000000001";
 const ATENDENTE = "a5550000-2222-4000-8000-000000000001";
 
 function como(user: string, query: string) {
-  return sql(`begin; set local role authenticated;
-    select set_config('request.jwt.claims','{"sub":"${user}","role":"authenticated"}',true);
-    ${query}; rollback;`)
+  return sql(`set role authenticated;
+    select set_config('request.jwt.claims','{"sub":"${user}","role":"authenticated"}',false);
+    ${query};`)
     .split("\n")
     .at(-1);
 }
