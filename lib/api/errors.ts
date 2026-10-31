@@ -336,6 +336,10 @@ export const ApiErrorCodes = {
 
   // 500 / upstream
   internal_error: "internal_error",
+  recebimentos_revision_conflict: "recebimentos_revision_conflict",
+  recebimentos_crypto_unavailable: "recebimentos_crypto_unavailable",
+  recebimentos_connection_missing: "recebimentos_connection_missing",
+  recebimentos_storage_unavailable: "recebimentos_storage_unavailable",
   upstream_unavailable: "upstream_unavailable",
   unavailable: "unavailable", // 503: dependência de config ausente (ex.: pool do engine sem SUPABASE_DB_URL)
   waha_error: "waha_error",

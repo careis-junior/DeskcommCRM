@@ -1032,6 +1032,16 @@ export const NAV_CATALOG = [
     minRole: "admin",
   },
   {
+    href: "/app/settings/recebimentos",
+    label: "Recebimentos",
+    description: "Conexão da empresa com o Asaas Sandbox e verificação da chave de acesso.",
+    icon: "Receipt",
+    group: "organizacao",
+    section: "Sua empresa",
+    minRole: "admin",
+    modulo: "recebimentos",
+  },
+  {
     href: "/app/lgpd/requests",
     label: "LGPD",
     description: "Pedidos de exportação e exclusão de dados feitos por clientes.",
