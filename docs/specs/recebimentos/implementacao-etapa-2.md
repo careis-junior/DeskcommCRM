@@ -77,3 +77,17 @@ Homologação real Sandbox, emissão, conta do provedor, mapeamento de pagadores
 webhooks, cobranças/recebimentos, conciliação e envio de links continuam pendentes.
 Esta documentação não declara deploy, E2E ou teste de banco aprovados sem os
 resultados dessas execuções.
+
+## Verificação desta implementação
+
+Em 30/10/2026, o recorte de serviço/API/componente passou 32 testes e o
+TypeScript completo terminou sem erros. O controle negativo que adulterou a
+revisão provocou duas falhas esperadas; o código original foi restaurado.
+
+Um PostgreSQL 16 descartável, sem rede, recebeu o prelude Supabase do harness e
+o baseline nas passadas INSTALL e UPDATE. Passaram: ausência da tabela antes da
+instalação, RLS ligada após provisionamento, privilégios de coluna, recusa de
+escrita e execução da provisionadora pelo navegador, separação de duas empresas,
+recusa de atendente e preservação de dados ao reprovisionar. Foram usadas somente
+fixtures sintéticas. O container foi removido ao final. Essa execução SQL focada
+não substitui a suíte completa de invariantes nas duas majors do CI nem o E2E.
